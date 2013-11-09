@@ -15,8 +15,13 @@ properties {
   if(Is-CIBuild -eq $true)
   {
     $buildNumber = $ENV:GO_PIPELINE_LABEL
-    $version = "1.0.0.$buildNumber"
+     $version = "$version.$buildNumber"
   }
+  else {
+   $version = "$version.0"   
+  }
+
+  write-host "VERISON: $version"
 
   $year = Get-Date -UFormat "%Y"
   $Copyright = " (C) Copyright $company $year";
@@ -140,14 +145,13 @@ task ? -Description "Helper to display task info" {
 
 task Output-SonarFile {
   $key = "$company" -replace '\s+', ' '
-  Write-SonarProperties -name $name -key $Company.
+  Write-SonarProperties -name $name -key $key
 }
 
 ##### Helper functions ######
 
 function Is-CIBuild
 {
-   return $true
    Test-Path -path Env:\GO_PIPELINE_LABEL 
 }
 
@@ -253,7 +257,13 @@ function Write-NuspecFile {
 
 function Write-SonarProperties {
 param($name,$key,$filename = "sonar-project.properties")
-$file = "sonar.projectKey=$key:$name
+
+write-host $name
+write-host $key
+write-host $filename
+
+
+$sonarfile = "sonar.projectKey=$key:$name
 sonar.projectVersion=1.0
 sonar.projectName=$name
 sonar.sources=.
@@ -283,7 +293,7 @@ sonar.stylecop.mode=
 #NDeps
 sonar.ndeps.mode=
  "
-  out-file -filePath $filename -encoding UTF8 -inputObject $file
+out-file -filePath $filename -encoding UTF8 -inputObject $sonarfile
 
 }
 
