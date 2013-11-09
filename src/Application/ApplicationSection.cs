@@ -2,17 +2,20 @@
 
 namespace Application
 {
+    /// <summary>
+    /// This is the app configuration section for managing application configuration settings as required. 
+    /// </summary>
     public class ApplicationSection : ConfigurationSection
     {
         public const string SectionName = "Application";
 
         private const string PortAttribute = "Port";
 
-        [ConfigurationProperty("Port", IsRequired = true)]
+        [ConfigurationProperty(PortAttribute, IsRequired = true)]
         public int Port
         {
-            get { return (int)this["Port"]; }
-            set { this["Port"] = value; }
+            get { return (int)this[PortAttribute]; }
+            set { this[PortAttribute] = value; }
         }      
     }
 }

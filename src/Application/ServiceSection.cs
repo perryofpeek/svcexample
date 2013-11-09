@@ -2,6 +2,9 @@
 
 namespace Application
 {
+    /// <summary>
+    /// This is the app configuration section for managing the windows service information
+    /// </summary>
     public class ServiceSection : ConfigurationSection
     {
         public const string SectionName = "Service";
